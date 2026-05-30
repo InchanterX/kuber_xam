@@ -5,7 +5,6 @@ metadata:
 provisioner: ru.yandex.s3.csi
 parameters:
   mounter: s3fs
-  options: "use_path_request_style,allow_other,uid=0,gid=0,umask=0000,use_cache=/tmp/s3fs-cache,no_check_certificate"
   csi.storage.k8s.io/controller-publish-secret-name: csi-s3-secret
   csi.storage.k8s.io/controller-publish-secret-namespace: kube-system
   csi.storage.k8s.io/node-publish-secret-name: csi-s3-secret
