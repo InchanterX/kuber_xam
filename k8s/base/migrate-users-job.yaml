@@ -2,11 +2,23 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: migrate-users
-  namespace: XAM-messanger
 spec:
   backoffLimit: 3
   template:
     spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: postgres:16-alpine
+          command:
+            - sh
+            - -c
+            - until pg_isready -h postgres -U $(POSTGRES_USER); do echo waiting for postgres; sleep 2; done
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: messager-db-secret
+                  key: POSTGRES_USER
       restartPolicy: Never
       containers:
         - name: migrate-users
@@ -17,7 +29,7 @@ spec:
             - name: GOOSE_DBSTRING
               valueFrom:
                 secretKeyRef:
-                  name: messanger-db-secret
+                  name: messager-db-secret
                   key: USER_DB_DSN
             - name: GOOSE_MIGRATION_DIR
               value: /migrations

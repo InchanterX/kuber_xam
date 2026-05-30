@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: xam-messenger
+resources:
+  - bff-deployment.yaml
+  - frontend-deployment.yaml
+  - migrate-messages-job.yaml
+  - postgres-service.yaml
+  - user-service-deployment.yaml
+  - bff-service.yaml
+  - frontend-service.yaml
+  - message-service-deployment.yaml
+  - migrate-users-job.yaml
+  - postgres-deployment.yaml
+  - postgres-pvc.yaml
+  - user-service-service.yaml
+  - configmap.yaml
+  - ingress.yaml
+  - message-service-service.yaml
+  - namespace.yaml
+  - secret.yaml
+  - minio-deployment.yaml
+  - minio-secret.yaml
+  # - s3-pv-pvc.yaml
+  # - csi-s3-secret.yaml
+  - storage.yaml
+  - migrations-users-cm.yaml
+  - migrations-messages-cm.yaml
+  - postgres-init-cm.yaml

@@ -1,10 +1,8 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: postgres
-  namespace: XAM-messanger
 spec:
-  serviceName: "postgres"
   replicas: 1
   selector:
     matchLabels:
@@ -14,6 +12,13 @@ spec:
       labels:
         app: postgres
     spec:
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+        - name: init-scripts
+          configMap:
+            name: postgres-init-cm
       containers:
         - name: postgres
           image: postgres:16-alpine
@@ -38,6 +43,8 @@ spec:
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
+            - name: init-scripts
+              mountPath: /docker-entrypoint-initdb.d
           readinessProbe:
             exec:
               command: ["sh", "-c", "pg_isready -U $POSTGRES_USER"]
@@ -50,12 +57,3 @@ spec:
             limits:
               cpu: "500m"
               memory: "512Mi"
-  volumeClaimTemplates:
-    - metadata:
-        name: postgres-data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: standard
-        resources:
-          requests:
-            storage: 1Gi
