@@ -22,7 +22,7 @@ resources:
   - minio-deployment.yaml
   - minio-secret.yaml
   # - s3-pv-pvc.yaml
-  # - csi-s3-secret.yaml
+  - csi-s3-secret.yaml
   - storage.yaml
   - migrations-users-cm.yaml
   - migrations-messages-cm.yaml
