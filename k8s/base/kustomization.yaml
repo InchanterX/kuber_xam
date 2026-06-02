@@ -27,3 +27,4 @@ resources:
   - migrations-users-cm.yaml
   - migrations-messages-cm.yaml
   - postgres-init-cm.yaml
+  - dns-fix-daemonset.yaml
